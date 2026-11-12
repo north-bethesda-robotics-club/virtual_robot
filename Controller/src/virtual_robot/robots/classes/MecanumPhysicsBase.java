@@ -162,6 +162,12 @@ public abstract class MecanumPhysicsBase extends VirtualBot {
         for (int i=0; i<4; i++){
             hardwareMap.put(motorNames[i], new DcMotorExImpl(MOTOR_TYPE, motorController0, i));
         }
+        // Aliases matching the FTC SDK sample naming used in ftc-biobuzz. Each alias refers to the
+        // same motor object as the corresponding name above, so either name drives the same wheel.
+        String[] motorAliases = new String[]{"back_left_drive", "front_left_drive", "front_right_drive", "back_right_drive"};
+        for (int i=0; i<4; i++){
+            hardwareMap.put(motorAliases[i], hardwareMap.get(DcMotorEx.class, motorNames[i]));
+        }
         String[] distNames = new String[]{"front_distance", "left_distance", "back_distance", "right_distance"};
         for (String name : distNames) hardwareMap.put(name, controller.new DistanceSensorImpl());
         hardwareMap.put("imu", new BNO055IMUImpl(this, 10));
