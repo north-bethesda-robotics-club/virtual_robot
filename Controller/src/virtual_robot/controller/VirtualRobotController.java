@@ -4,6 +4,7 @@ import com.qualcomm.hardware.CommonOdometry;
 import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.Range;
+import com.studiohartman.jamepad.Configuration;
 import com.studiohartman.jamepad.ControllerIndex;
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
@@ -1018,7 +1019,9 @@ public class VirtualRobotController {
         private Thread[] rumbleThreads = new Thread[2];
 
         public RealGamePadHelper(){
-            controller = new ControllerManager(2);
+            Configuration config = new Configuration();
+            config.maxNumControllers = 2;
+            controller = new ControllerManager(config);
             controller.initSDLGamepad();
         }
 
