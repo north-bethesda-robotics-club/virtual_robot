@@ -29,7 +29,7 @@ public class MecanumBot extends MecanumPhysicsBase {
     private DeadWheelEncoder xEncoder = null;
 
     // Additional mechanism motors (no on-screen graphics; power and encoder counts are simulated).
-    private static final String[] MECHANISM_MOTOR_NAMES = {"intake_motor", "turret_motor", "shoot_motor"};
+    private static final String[] MECHANISM_MOTOR_NAMES = {"intake_motor", "turret_motor", "shoot_pollen_motor", "shoot_nectar_motor"};
     private DcMotorExImpl[] mechanismMotors = new DcMotorExImpl[MECHANISM_MOTOR_NAMES.length];
 
     // backServoArm is instantiated during loading via a fx:id property.
@@ -88,7 +88,7 @@ public class MecanumBot extends MecanumPhysicsBase {
         for (int i=0; i<3; i++){
             hardwareMap.put(encoderNames[i], new DeadWheelEncoder(MOTOR_TYPE, motorController1, i));
         }
-        // Mechanism motors use motorController1 ports 3-5 (ports 0-2 are the dead wheel encoders).
+        // Mechanism motors use motorController1 ports 3-6 (ports 0-2 are the dead wheel encoders).
         for (int i = 0; i < MECHANISM_MOTOR_NAMES.length; i++) {
             hardwareMap.put(MECHANISM_MOTOR_NAMES[i], new DcMotorExImpl(MotorType.Neverest40, motorController1, 3 + i));
         }
