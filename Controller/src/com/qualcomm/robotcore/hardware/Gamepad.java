@@ -157,9 +157,11 @@ public class Gamepad {
         a = state.a;
         b = state.b;
         left_stick_x = setWithDeadzone(state.leftStickX);
-        left_stick_y = setWithDeadzone(-state.leftStickY);
+        // Jamepad 2.x reports raw SDL axes (stick up = negative), which already matches the FTC
+        // convention, so Y is no longer negated here. (Jamepad 1.x inverted Y internally.)
+        left_stick_y = setWithDeadzone(state.leftStickY);
         right_stick_x = setWithDeadzone(state.rightStickX);
-        right_stick_y = setWithDeadzone(-state.rightStickY);
+        right_stick_y = setWithDeadzone(state.rightStickY);
         dpad_up = state.dpadUp;
         dpad_down = state.dpadDown;
         dpad_left = state.dpadLeft;
