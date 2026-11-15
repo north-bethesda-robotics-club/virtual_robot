@@ -30,7 +30,6 @@
                     </stops>
                 </RadialGradient>
             </fill></Circle>
-        <Rectangle fx:id="backServoArm" arcHeight="5.0" arcWidth="5.0" fill="MAGENTA" height="5.0" stroke="BLACK" strokeType="INSIDE" width="37.5" x="5.0" y="65.0" />
         <!-- Intake (back of robot): roller just outside the back edge, plus chevrons showing flow direction. -->
         <Rectangle fx:id="intakeRoller" arcHeight="4.0" arcWidth="4.0" fill="#2b2b2b" height="6.0" stroke="BLACK" strokeType="INSIDE" width="51.0" x="12.0" y="75.0" />
         <Polyline fx:id="intakeChevron0" fill="TRANSPARENT" opacity="0.0" points="-14.0, 8.0, 0.0, 0.0, 14.0, 8.0" stroke="LIMEGREEN" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
