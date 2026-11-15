@@ -55,6 +55,31 @@ the paperback on [Amazon](https://www.amazon.com/dp/B08DBVKXLZ).) It is a board 
 attached: DcMotor, Servo, Potentiometer, Touch Sensor, and a Color-Distance Sensor. It also has a BNO055 IMU. 
 The board doesn't move around the field, but it can be rotated (to test the IMU) by dragging the board chassis.
 
+# Deploying to the REV Control Hub
+
+This repo builds the same OpModes for the simulator **and** the real robot.
+
+* **`TeamCode/robot/`** is the team's robot code. Everything in this folder runs in the simulator
+  and is also installed on the Control Hub. Only use FTC SDK classes here (`com.qualcomm.*`,
+  `org.firstinspires.*`), never `virtual_robot.*`.
+* **`TeamCode/src/`** holds simulator-only samples (RoadRunner/Pedro demos, etc.). It is never
+  deployed.
+* **`RobotController/`** is the official FTC SDK 12.0 Android project. Its TeamCode module compiles
+  `TeamCode/robot/` instead of its own source folder.
+
+Requires Android Studio (for the Android SDK) and JDK 17+.
+
+    cd RobotController
+    ./deploy.sh check   # compile against the real FTC SDK; no robot needed
+    ./deploy.sh         # build and install on the Control Hub
+
+To deploy, either plug into the Control Hub's USB-C port or join its Wi-Fi network (`deploy.sh`
+runs `adb connect 192.168.43.1:5555` for you). You can also open the `RobotController` folder in
+Android Studio and press Run.
+
+Run `./deploy.sh check` before a competition. The simulator's copy of the SDK is only an
+approximation, so code can work in the sim and still fail to compile for the robot (or the reverse).
+
 An approximation of the FTC SDK is provided.
 
 User-defined OpModes must be placed in the org.firstinspires.ftc.teamcode package, and must extend OpMode 

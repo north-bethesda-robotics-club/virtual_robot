@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+//
+// build.gradle in TeamCode
+//
+// Most of the definitions for building your module reside in a common, shared
+// file 'build.common.gradle'. Being factored in this way makes it easier to
+// integrate updates to the FTC into your code. If you really need to customize
+// the build definitions, you can place those customizations in this file, but
+// please think carefully as to whether such customizations are really necessary
+// before doing so.
+
+// Custom definitions may go here
+
+// Include common definitions from above.
+apply from: '../build.common.gradle'
+apply from: '../build.dependencies.gradle'
+
+android {
+    namespace = 'org.firstinspires.ftc.teamcode'
+
+    packagingOptions {
+        jniLibs.useLegacyPackaging true
+    }
+
+    // virtual_robot: the robot's Java code is NOT kept in this module. It lives in
+    // virtual_robot/TeamCode/robot, which is also compiled into the simulator, so the
+    // same OpModes run in the sim and on the Control Hub. Only the manifest and
+    // resources come from TeamCode/src/main here.
+    sourceSets {
+        main {
+            java.srcDirs = ['../../TeamCode/robot']
+        }
+    }
+}
+
+dependencies {
+    implementation project(':FtcRobotController')
+}
