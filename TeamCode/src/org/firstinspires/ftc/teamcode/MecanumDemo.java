@@ -16,21 +16,61 @@ import org.firstinspires.ftc.teamcode.roadrunner.PinpointLocalizer;
 @TeleOp(name = "mecanum bot demo", group = "MecanumBot")
 public class MecanumDemo extends LinearOpMode {
 
+    public void CheckShootNectar(double triggerValue) {
+        DcMotor m7 = hardwareMap.dcMotor.get("shoot_nectar_motor");
+        m7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        double ShootPowerNectar = triggerValue;
+
+        if (ShootPowerNectar > 0 && ShootPowerNectar <= 0.5)
+        {
+            ShootPowerNectar = 0.5;
+        }
+        if (ShootPowerNectar > 0.5) {
+            ShootPowerNectar = 1;
+        }
+        m7.setPower(ShootPowerNectar);
+    }
+    public void CheckShootPollen(double triggerValue) {
+        DcMotor m6 = hardwareMap.dcMotor.get("shoot_pollen_motor");
+        m6.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m6.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        double ShootPowerPollen = triggerValue;
+
+        if (ShootPowerPollen > 0 && ShootPowerPollen <= 0.5)
+        {
+            ShootPowerPollen = 0.4;
+        }
+        if (ShootPowerPollen > 0.5) {
+            ShootPowerPollen = 0.8;
+        }
+        m6.setPower(ShootPowerPollen);
+    }
+
     public void runOpMode(){
         DcMotor m1 = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor m2 = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor m3 = hardwareMap.dcMotor.get("front_right_motor");
         DcMotor m4 = hardwareMap.dcMotor.get("back_right_motor");
+        DcMotor m5 = hardwareMap.dcMotor.get("turret_motor");
+        DcMotor m6 = hardwareMap.dcMotor.get("shoot_pollen_motor");
+
         m1.setDirection(DcMotor.Direction.REVERSE);
         m2.setDirection(DcMotor.Direction.REVERSE);
         m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m5.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m6.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m5.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m6.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         DistanceSensor frontDistance = hardwareMap.get(DistanceSensor.class, "front_distance");
         DistanceSensor leftDistance = hardwareMap.get(DistanceSensor.class, "left_distance");
@@ -58,9 +98,14 @@ public class MecanumDemo extends LinearOpMode {
         while (opModeIsActive()){
             double px = gamepad1.left_stick_x;
             double py = -gamepad1.left_stick_y;
-            double pa = gamepad1.left_trigger - gamepad1.right_trigger;
+            //double pa = gamepad1.left_trigger - gamepad1.right_bumper;
+            double pa = 0.0;
+            boolean dpadL = gamepad1.dpad_left;
+            boolean dpadR = gamepad1.dpad_right;
+            double RightTrigger = gamepad1.right_trigger;
+            double LeftTrigger = gamepad1.left_trigger;
 
-            if (Math.abs(pa) < 0.05) pa = 0;
+            //if (Math.abs(pa) < 0.05) pa = 0;
             double p1 = -px + py - pa;
             double p2 = px + py + -pa;
             double p3 = -px + py + pa;
@@ -77,6 +122,20 @@ public class MecanumDemo extends LinearOpMode {
             m2.setPower(p2);
             m3.setPower(p3);
             m4.setPower(p4);
+//THIS IS FOR THE TURRET AIMING AND SHOOTING ON CONTROLLER (M5 & M6) {
+            double turretPowerFactor = 0.5;
+            double turretPower = 0.0;
+            if (dpadL) {
+                turretPower += turretPowerFactor;
+            }
+            if (dpadR) {
+                turretPower -= turretPowerFactor;
+            }
+            m5.setPower(turretPower);
+
+            CheckShootNectar(LeftTrigger);
+            CheckShootPollen(RightTrigger);
+
 
             pinpoint.update();
             Pose2D pose = pinpoint.getPosition();
@@ -116,5 +175,10 @@ public class MecanumDemo extends LinearOpMode {
         m2.setPower(0);
         m3.setPower(0);
         m4.setPower(0);
+        m5.setPower(0);
+        m6.setPower(0);
+        m7.setPower(0);
     }
 }
+
+//AAUAUUAUYAUYUYUYUYUYUYUYU
