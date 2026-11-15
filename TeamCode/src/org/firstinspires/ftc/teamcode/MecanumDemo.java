@@ -57,6 +57,7 @@ public class MecanumDemo extends LinearOpMode {
         DcMotor m5 = hardwareMap.dcMotor.get("turret_motor");
         DcMotor m6 = hardwareMap.dcMotor.get("shoot_pollen_motor");
         DcMotor m7 = hardwareMap.dcMotor.get("shoot_nectar_motor");
+        DcMotor m8 = hardwareMap.dcMotor.get("intake_motor");
 
 
         m1.setDirection(DcMotor.Direction.REVERSE);
@@ -110,6 +111,10 @@ public class MecanumDemo extends LinearOpMode {
             pa = gamepad1.right_stick_x;
 
             boolean left_bumper = gamepad1.left_bumper;
+            if (left_bumper) {
+                m8.setPower(1);
+            }
+
 
             //if (Math.abs(pa) < 0.05) pa = 0;
             double p1 = -px + py - pa;
