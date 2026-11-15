@@ -17,36 +17,36 @@ import org.firstinspires.ftc.teamcode.roadrunner.PinpointLocalizer;
 public class MecanumDemo extends LinearOpMode {
 
     public void CheckShootNectar(double triggerValue) {
-        DcMotor m7 = hardwareMap.dcMotor.get("shoot_nectar_motor");
+        DcMotorEx m7 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_nectar_motor");
         m7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        double ShootPowerNectar = triggerValue;
+        double shootVelocity = triggerValue;
 
-        if (ShootPowerNectar > 0 && ShootPowerNectar <= 0.5)
+        if (triggerValue > 0 && triggerValue <= 0.5)
         {
-            ShootPowerNectar = 0.5;
+            shootVelocity = 1500;
         }
-        if (ShootPowerNectar > 0.5) {
-            ShootPowerNectar = 1;
+        if (triggerValue > 0.5) {
+            shootVelocity = 3000;
         }
-        m7.setPower(ShootPowerNectar);
+        m7.setVelocity(shootVelocity);
     }
-    public void CheckShootPollen(double triggerValue) {
-        DcMotor m6 = hardwareMap.dcMotor.get("shoot_pollen_motor");
+    public void CheckShootPollen(double triggerValue2) {
+        DcMotorEx m6 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_pollen_motor");
         m6.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m6.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        double ShootPowerPollen = triggerValue;
+        double shootVelocity2 = triggerValue2;
 
-        if (ShootPowerPollen > 0 && ShootPowerPollen <= 0.5)
+        if (triggerValue2 > 0 && triggerValue2 <= 0.5)
         {
-            ShootPowerPollen = 0.4;
+            shootVelocity2 = 1250;
         }
-        if (ShootPowerPollen > 0.5) {
-            ShootPowerPollen = 0.8;
+        if (triggerValue2 > 0.5) {
+            shootVelocity2 = 2500;
         }
-        m6.setPower(ShootPowerPollen);
+        m6.setVelocity(shootVelocity2);
     }
 
     public void runOpMode(){
@@ -55,10 +55,9 @@ public class MecanumDemo extends LinearOpMode {
         DcMotor m3 = hardwareMap.dcMotor.get("front_right_motor");
         DcMotor m4 = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor m5 = hardwareMap.dcMotor.get("turret_motor");
-        DcMotor m6 = hardwareMap.dcMotor.get("shoot_pollen_motor");
-        DcMotor m7 = hardwareMap.dcMotor.get("shoot_nectar_motor");
+        DcMotorEx m6 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_pollen_motor");
+        DcMotorEx m7 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_nectar_motor");
         DcMotor m8 = hardwareMap.dcMotor.get("intake_motor");
-
 
         m1.setDirection(DcMotor.Direction.REVERSE);
         m2.setDirection(DcMotor.Direction.REVERSE);
@@ -133,7 +132,7 @@ public class MecanumDemo extends LinearOpMode {
             m2.setPower(p2);
             m3.setPower(p3);
             m4.setPower(p4);
-//THIS IS FOR THE TURRET AIMING AND SHOOTING ON CONTROLLER (M5 & M6) {
+//THIS IS FOR THE TURRET AIMING AND SHOOTING ON CONTROLLER (M5) {
             double turretPowerFactor = 0.5;
             double turretPower = 0.0;
             if (dpadL) {
@@ -187,6 +186,7 @@ public class MecanumDemo extends LinearOpMode {
         m3.setPower(0);
         m4.setPower(0);
         m5.setPower(0);
-        m6.setPower(0);
+        m6.setVelocity(0);
+        m7.setVelocity(0);
     }
 }
