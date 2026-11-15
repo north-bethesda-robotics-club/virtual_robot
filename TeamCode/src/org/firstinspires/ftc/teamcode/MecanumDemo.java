@@ -58,6 +58,7 @@ public class MecanumDemo extends LinearOpMode {
         DcMotorEx m6 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_pollen_motor");
         DcMotorEx m7 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_nectar_motor");
         DcMotor m8 = hardwareMap.dcMotor.get("intake_motor");
+        CRServo pollen_transfer = hardwareMap.crservo.get("pollen_transfer");
 
         m1.setDirection(DcMotor.Direction.REVERSE);
         m2.setDirection(DcMotor.Direction.REVERSE);
@@ -112,8 +113,12 @@ public class MecanumDemo extends LinearOpMode {
             boolean left_bumper = gamepad1.left_bumper;
             if (left_bumper) {
                 m8.setPower(1);
+                pollen_transfer.setPower(1);
             }
-
+            if (!left_bumper) {
+                m8.setPower(0);
+                pollen_transfer.setPower(0);
+            }
 
             //if (Math.abs(pa) < 0.05) pa = 0;
             double p1 = -px + py - pa;
