@@ -104,6 +104,7 @@ public class MecanumDemo extends LinearOpMode {
             boolean dpadR = gamepad1.dpad_right;
             double RightTrigger = gamepad1.right_trigger;
             double LeftTrigger = gamepad1.left_trigger;
+            pa = gamepad1.right_stick_x;
 
             //if (Math.abs(pa) < 0.05) pa = 0;
             double p1 = -px + py - pa;
@@ -177,8 +178,5 @@ public class MecanumDemo extends LinearOpMode {
         m4.setPower(0);
         m5.setPower(0);
         m6.setPower(0);
-        m7.setPower(0);
     }
 }
-
-//AAUAUUAUYAUYUYUYUYUYUYUYU
