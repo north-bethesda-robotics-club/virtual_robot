@@ -56,6 +56,7 @@ public class MecanumDemo extends LinearOpMode {
         DcMotor m4 = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor m5 = hardwareMap.dcMotor.get("turret_motor");
         DcMotor m6 = hardwareMap.dcMotor.get("shoot_pollen_motor");
+        DcMotor m7 = hardwareMap.dcMotor.get("shoot_nectar_motor");
 
         m1.setDirection(DcMotor.Direction.REVERSE);
         m2.setDirection(DcMotor.Direction.REVERSE);
@@ -65,13 +66,14 @@ public class MecanumDemo extends LinearOpMode {
         m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m5.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m6.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m5.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m6.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        m7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         DistanceSensor frontDistance = hardwareMap.get(DistanceSensor.class, "front_distance");
         DistanceSensor leftDistance = hardwareMap.get(DistanceSensor.class, "left_distance");
         DistanceSensor rightDistance = hardwareMap.get(DistanceSensor.class, "right_distance");
