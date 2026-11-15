@@ -4,6 +4,8 @@
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Polyline?>
 <?import javafx.scene.shape.Rectangle?>
 
 <Group xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="virtual_robot.robots.classes.MecanumBot">
@@ -29,5 +31,17 @@
                 </RadialGradient>
             </fill></Circle>
         <Rectangle fx:id="backServoArm" arcHeight="5.0" arcWidth="5.0" fill="MAGENTA" height="5.0" stroke="BLACK" strokeType="INSIDE" width="37.5" x="5.0" y="65.0" />
+        <!-- Intake (back of robot): roller just outside the back edge, plus chevrons showing flow direction. -->
+        <Rectangle fx:id="intakeRoller" arcHeight="4.0" arcWidth="4.0" fill="#2b2b2b" height="6.0" stroke="BLACK" strokeType="INSIDE" width="51.0" x="12.0" y="75.0" />
+        <Polyline fx:id="intakeChevron0" fill="TRANSPARENT" opacity="0.0" points="-14.0, 8.0, 0.0, 0.0, 14.0, 8.0" stroke="LIMEGREEN" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
+        <Polyline fx:id="intakeChevron1" fill="TRANSPARENT" opacity="0.0" points="-14.0, 8.0, 0.0, 0.0, 14.0, 8.0" stroke="LIMEGREEN" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
+        <Polyline fx:id="intakeChevron2" fill="TRANSPARENT" opacity="0.0" points="-14.0, 8.0, 0.0, 0.0, 14.0, 8.0" stroke="LIMEGREEN" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
+        <!-- Shooters (front left / front right): flywheel with dashed rim that spins, plus muzzle flash. -->
+        <Polygon fx:id="leftMuzzle" fill="#ff7a00" opacity="0.0" points="15.0, 0.0, 27.0, 0.0, 21.0, -12.0" />
+        <Polygon fx:id="rightMuzzle" fill="#ffd600" opacity="0.0" points="48.0, 0.0, 60.0, 0.0, 54.0, -12.0" stroke="BLACK" strokeWidth="0.5" />
+        <Circle centerX="21.0" centerY="13.0" fill="#1a1a1a" radius="9.5" />
+        <Circle centerX="54.0" centerY="13.0" fill="#1a1a1a" radius="9.5" />
+        <Circle fx:id="leftFlywheel" centerX="21.0" centerY="13.0" fill="#444444" radius="7.0" stroke="#ff7a00" strokeDashArray="4.0, 3.0" strokeWidth="2.5" />
+        <Circle fx:id="rightFlywheel" centerX="54.0" centerY="13.0" fill="#444444" radius="7.0" stroke="#ffd600" strokeDashArray="4.0, 3.0" strokeWidth="2.5" />
     </children>
 </Group>
