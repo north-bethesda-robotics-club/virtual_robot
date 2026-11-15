@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.*;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.*;
 
 /**
- * Example OpMode. Demonstrates use of gyro, color sensor, encoders, and telemetry.
+ * Team TeleOp. Runs in the simulator and on the robot (GoBuildaNugget26 config).
  *
  */
 @TeleOp(name = "mecanum bot demo", group = "MecanumBot")
@@ -16,9 +14,6 @@ public class MecanumDemo extends LinearOpMode {
 
     public void CheckShootNectar(double triggerValue) {
         DcMotorEx m7 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_nectar_motor");
-        m7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        m7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         double shootVelocity = triggerValue;
 
         if (triggerValue > 0 && triggerValue <= 0.5)
@@ -32,9 +27,6 @@ public class MecanumDemo extends LinearOpMode {
     }
     public void CheckShootPollen(double triggerValue2) {
         DcMotorEx m6 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_pollen_motor");
-        m6.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        m6.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         double shootVelocity2 = triggerValue2;
 
         if (triggerValue2 > 0 && triggerValue2 <= 0.5)
@@ -48,10 +40,10 @@ public class MecanumDemo extends LinearOpMode {
     }
 
     public void runOpMode(){
-        DcMotor m1 = hardwareMap.dcMotor.get("back_left_motor");
-        DcMotor m2 = hardwareMap.dcMotor.get("front_left_motor");
-        DcMotor m3 = hardwareMap.dcMotor.get("front_right_motor");
-        DcMotor m4 = hardwareMap.dcMotor.get("back_right_motor");
+        DcMotor m1 = hardwareMap.dcMotor.get("back_left_drive");
+        DcMotor m2 = hardwareMap.dcMotor.get("front_left_drive");
+        DcMotor m3 = hardwareMap.dcMotor.get("front_right_drive");
+        DcMotor m4 = hardwareMap.dcMotor.get("back_right_drive");
         DcMotor m5 = hardwareMap.dcMotor.get("turret_motor");
         DcMotorEx m6 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_pollen_motor");
         DcMotorEx m7 = (DcMotorEx) hardwareMap.dcMotor.get("shoot_nectar_motor");
@@ -74,28 +66,12 @@ public class MecanumDemo extends LinearOpMode {
         m5.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m6.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        DistanceSensor frontDistance = hardwareMap.get(DistanceSensor.class, "front_distance");
-        DistanceSensor leftDistance = hardwareMap.get(DistanceSensor.class, "left_distance");
-        DistanceSensor rightDistance = hardwareMap.get(DistanceSensor.class, "right_distance");
-        DistanceSensor backDistance = hardwareMap.get(DistanceSensor.class, "back_distance");
-
         IMU imu = hardwareMap.get(IMU.class, "imu");
-
-        ColorSensor colorSensor = hardwareMap.colorSensor.get("color_sensor");
-//        OctoQuad octoQuad = hardwareMap.get(OctoQuad.class, "octoquad");
-        GoBildaPinpointDriver pinpoint = hardwareMap.get(GoBildaPinpointDriver.class,
-                "pinpoint");
-        pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.RADIANS, 0));
 
         telemetry.addData("Press Start When Ready","");
         telemetry.update();
 
         waitForStart();
-        VectorF oldVel = new VectorF(0,0);
-        double oldSecs = getRuntime();
-        double maxVel = 0;
-        double maxAccel = 0;
-        double minAccel = 0;
 
         while (opModeIsActive()){
             double px = gamepad1.left_stick_x;
@@ -150,38 +126,12 @@ public class MecanumDemo extends LinearOpMode {
             CheckShootPollen(RightTrigger);
 
 
-            pinpoint.update();
-            Pose2D pose = pinpoint.getPosition();
-            double secs = getRuntime();
-            VectorF vel = new VectorF((float)pinpoint.getVelX(DistanceUnit.INCH),
-                    (float)pinpoint.getVelY(DistanceUnit.INCH));
-            VectorF accel = vel.subtracted(oldVel).multiplied(1.0f/((float)secs - (float)oldSecs));
-
-            if (vel.get(0) > maxVel) maxVel = vel.get(0);
-            if (accel.get(0) > maxAccel) maxAccel = accel.get(0);
-            if (accel.get(0) < minAccel) minAccel = accel.get(0);
-
-            oldVel = vel;
-            oldSecs = secs;
-
-            telemetry.addData("maxVel", maxVel);
-            telemetry.addData("maxAccel", maxAccel);
-            telemetry.addData("minAccel", minAccel);
-
-            telemetry.addData("Color","R %d  G %d  B %d", colorSensor.red(), colorSensor.green(), colorSensor.blue());
 //            Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
             Orientation orientation = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
             telemetry.addData("Heading", " %.1f", orientation.firstAngle * 180.0 / Math.PI);
             telemetry.addData("Angular Velocity", "%.1f", imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
-            telemetry.addData("Front Distance", " %.1f", frontDistance.getDistance(DistanceUnit.CM));
-            telemetry.addData("Left Distance", " %.1f", leftDistance.getDistance(DistanceUnit.CM));
-            telemetry.addData("Right Distance", " %.1f", rightDistance.getDistance(DistanceUnit.CM));
-            telemetry.addData("Back Distance", " %.1f", backDistance.getDistance(DistanceUnit.CM));
             telemetry.addData("Encoders"," %d %d %d %d", m1.getCurrentPosition(), m2.getCurrentPosition(),
                     m3.getCurrentPosition(), m4.getCurrentPosition());
-//            telemetry.addData("Octoquad", "%d %d %d %d", octoQuad.readSinglePosition(0),
-//                    octoQuad.readSinglePosition(1), octoQuad.readSinglePosition(2),
-//                    octoQuad.readSinglePosition(3));
             telemetry.update();
         }
         m1.setPower(0);
